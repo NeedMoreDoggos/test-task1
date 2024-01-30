@@ -6,7 +6,8 @@ import (
 )
 
 type Config struct {
-	DBConfig DBConfig `yaml:"db" json:"db"`
+	Environment string   `yaml:"environment" json:"environment"`
+	DBConfig    DBConfig `yaml:"db" json:"db"`
 }
 
 type DBConfig struct {

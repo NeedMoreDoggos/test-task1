@@ -17,6 +17,12 @@ const (
 	DEFAULT_CONFIG_PATH = "./config.yaml"
 )
 
+var ENV_TYPES = map[string]bool{
+	"local": true,
+	"dev":   true,
+	"prod":  true,
+}
+
 var (
 	ErrParseYaml          = errors.New("failed to parse yaml")
 	ErrParseJSON          = errors.New("failed to parse json")
@@ -101,6 +107,10 @@ func validateConfig(cfg *Config) error {
 		return err
 	}
 
+	if err := validateEnviroment(cfg.Environment); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -127,6 +137,14 @@ func validateDBConfig(cfg DBConfig) error {
 
 	if cfg.Database == "" {
 		return fmt.Errorf("%w: database is required", ErrValidateConfig)
+	}
+
+	return nil
+}
+
+func validateEnviroment(env string) error {
+	if !ENV_TYPES[env] {
+		return fmt.Errorf("%w: invalid env %s", ErrValidateConfig, env)
 	}
 
 	return nil

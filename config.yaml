@@ -1,0 +1,11 @@
+environment: "dev"
+db:
+  type: "postgres"
+  host: "localhost"
+  port: "54321"
+  user: "postgres_user"
+  password: "postgres_password"
+  database: "mydatabase"
+  meta:
+    sslmode: "disable"
+    max_connections: 20

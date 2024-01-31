@@ -38,6 +38,7 @@ func New(log *slog.Logger, accToAccTransferer accToAccTransferer) http.HandlerFu
 			render.JSON(w, r, transfer.Error("failed to parse request"))
 			return
 		}
+		defer r.Body.Close()
 
 		if err := transfer.ValidateReq(req); err != nil {
 			log.Error(err.Error())

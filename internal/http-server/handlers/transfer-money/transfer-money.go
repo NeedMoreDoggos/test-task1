@@ -39,7 +39,7 @@ func New(log *slog.Logger, accToAccTransferer accToAccTransferer) http.HandlerFu
 			return
 		}
 
-		if err := validateReq(req); err != nil {
+		if err := transfer.ValidateReq(req); err != nil {
 			log.Error(err.Error())
 			w.WriteHeader(http.StatusBadRequest)
 			render.JSON(w, r, transfer.Error("failed to validate request"))
@@ -78,21 +78,4 @@ func New(log *slog.Logger, accToAccTransferer accToAccTransferer) http.HandlerFu
 			slog.String("to_wallet_id", req.To),
 			slog.String("amount", amount.String()))
 	}
-}
-
-func validateReq(r transfer.Request) error {
-	if r.To == "" {
-		return ErrEmptyTo
-	}
-
-	if r.Amount == "" {
-		return ErrEmptyAmount
-	}
-
-	_, err := decimal.NewFromString(r.Amount)
-	if err != nil {
-		return ErrUncorrectAmount
-	}
-
-	return nil
 }

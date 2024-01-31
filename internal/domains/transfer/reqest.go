@@ -17,3 +17,20 @@ type Request struct {
 	Amount        string `json:"amount"`
 	amountDecimal *decimal.Decimal
 }
+
+func ValidateReq(r Request) error {
+	if r.To == "" {
+		return ErrEmptyTo
+	}
+
+	if r.Amount == "" {
+		return ErrEmptyAmount
+	}
+
+	_, err := decimal.NewFromString(r.Amount)
+	if err != nil {
+		return ErrUncorrectAmount
+	}
+
+	return nil
+}

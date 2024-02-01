@@ -30,9 +30,12 @@ local-migration-up:
 local-migration-down:
 	${LOCAL_BIN}/goose -dir ${LOCAL_MIGRATION_DIR} postgres ${LOCAL_MIGRATION_DSN} down -v
 
+sqlite-migration-testing-up:
+	${LOCAL_BIN}/goose -dir ${LOCAL_MIGRATION_DIR} sqlite3 ./data/testing.db up -v
+
 new-migrations:
 	cd ${LOCAL_MIGRATION_DIR} && \
-	${LOCAL_BIN}/goose create user sql
+	${LOCAL_BIN}/goose create add_wallet_fk_to_transactions sql
 
 test:
 	go clean -testcache
